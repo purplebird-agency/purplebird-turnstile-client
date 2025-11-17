@@ -1,6 +1,6 @@
 {
     "name": "@purplebird/turnstile-client",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Standardized Cloudflare Turnstile integration package for Astro projects with automatic token refresh",
     "main": "src/index.ts",
     "module": "src/index.ts",
@@ -38,14 +38,14 @@
     "engines": {
         "node": ">=14.0.0"
     },
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    ".": "./src/index.ts",
-    "./TurnstileWidget.astro": "./src/TurnstileWidget.astro",
-    "./src/TurnstileWidget.astro": "./src/TurnstileWidget.astro",
-    "./netlify/verify-turnstile": "./netlify/verify-turnstile.js",
-    "./netlify/get-turnstile-token": "./netlify/get-turnstile-token.js"
-  }
+    "publishConfig": {
+        "access": "public"
+    },
+    "exports": {
+        ".": "./src/index.ts",
+        "./TurnstileWidget.astro": "./src/TurnstileWidget.astro",
+        "./src/TurnstileWidget.astro": "./src/TurnstileWidget.astro",
+        "./netlify/verify-turnstile": "./netlify/verify-turnstile.js",
+        "./netlify/get-turnstile-token": "./netlify/get-turnstile-token.js"
+    }
 }
