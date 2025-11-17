@@ -1,0 +1,129 @@
+---
+import type { TurnstileWidgetProps } from './types';
+import { getSiteKey, setupAutoRefresh } from './turnstile-client';
+
+interface Props extends TurnstileWidgetProps {
+  siteKey: string;
+  containerId?: string;
+  theme?: 'light' | 'dark' | 'auto';
+  size?: 'normal' | 'compact';
+  refreshInterval?: number;
+}
+
+const {
+  siteKey: providedSiteKey,
+  containerId,
+  theme = 'auto',
+  size = 'normal',
+  refreshInterval = 120000,
+} = Astro.props;
+
+// Use test key in development if siteKey is not provided or empty
+const siteKey = getSiteKey(providedSiteKey);
+const widgetId = containerId || `turnstile-widget-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div id={widgetId} class="cf-turnstile" data-sitekey={siteKey} data-theme={theme} data-size={size}></div>
+
+<!-- Load Turnstile script -->
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+  crossorigin="anonymous"
+></script>
+
+<script is:inline define:vars={{ widgetId, refreshInterval }}>
+  (function() {
+    const DEFAULT_REFRESH_INTERVAL = 120000;
+    const WIDGET_INIT_TIMEOUT = 10000;
+    const WIDGET_CHECK_INTERVAL = 100;
+    
+    function setupAutoRefresh(widget, options) {
+      const refreshInterval = options?.refreshInterval || DEFAULT_REFRESH_INTERVAL;
+      let turnstileResetInterval = null;
+      let checkWidgetInterval = null;
+      let isCleanedUp = false;
+      
+      const cleanup = function() {
+        if (isCleanedUp) return;
+        isCleanedUp = true;
+        if (turnstileResetInterval !== null) {
+          clearInterval(turnstileResetInterval);
+          turnstileResetInterval = null;
+        }
+        if (checkWidgetInterval !== null) {
+          clearInterval(checkWidgetInterval);
+          checkWidgetInterval = null;
+        }
+      };
+      
+      const setupReset = function() {
+        if (!widget || !window.turnstile) {
+          return;
+        }
+        
+        checkWidgetInterval = setInterval(function() {
+          const widgetIdAttr = widget.getAttribute('data-widget-id');
+          if (widgetIdAttr) {
+            if (checkWidgetInterval !== null) {
+              clearInterval(checkWidgetInterval);
+              checkWidgetInterval = null;
+            }
+            
+            turnstileResetInterval = setInterval(function() {
+              try {
+                window.turnstile.reset(widgetIdAttr);
+                if (options?.onRefresh) options.onRefresh();
+              } catch (error) {
+                console.warn('Turnstile reset error:', error);
+                if (options?.onError) options.onError(error);
+              }
+            }, refreshInterval);
+          }
+        }, WIDGET_CHECK_INTERVAL);
+        
+        setTimeout(function() {
+          if (checkWidgetInterval !== null) {
+            clearInterval(checkWidgetInterval);
+            checkWidgetInterval = null;
+          }
+        }, WIDGET_INIT_TIMEOUT);
+      };
+      
+      window.addEventListener('beforeunload', cleanup);
+      
+      if (window.turnstile) {
+        setupReset();
+      } else {
+        const loadHandler = function() {
+          setTimeout(setupReset, 500);
+        };
+        window.addEventListener('load', loadHandler);
+        
+        const checkScript = setInterval(function() {
+          if (window.turnstile) {
+            clearInterval(checkScript);
+            setupReset();
+          }
+        }, 100);
+        
+        setTimeout(function() {
+          clearInterval(checkScript);
+        }, 5000);
+      }
+      
+      return cleanup;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const widget = document.getElementById(widgetId);
+      if (widget) {
+        setupAutoRefresh(widget, {
+          refreshInterval: refreshInterval,
+        });
+      }
+    });
+  })();
+</script>
+
