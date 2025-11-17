@@ -18,8 +18,12 @@ const {
   refreshInterval = 120000,
 } = Astro.props;
 
-// Use test key in development if siteKey is not provided or empty
-const siteKey = getSiteKey(providedSiteKey);
+// Use provided siteKey, or fallback to test key if empty/undefined
+// The consumer decides whether to use test keys (e.g., via env var fallback)
+const siteKey = providedSiteKey && providedSiteKey.trim() !== '' 
+  ? providedSiteKey 
+  : '1x00000000000000000000AA';
+
 const widgetId = containerId || `turnstile-widget-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
