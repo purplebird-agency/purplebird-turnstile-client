@@ -1,8 +1,8 @@
-const { describe, it, expect } = require('vitest');
+import { describe, it, expect } from 'vitest';
 
 describe('get-turnstile-token', () => {
   it('should extract token from X-Turnstile-Token header', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -15,7 +15,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should extract token from X-Turnstile-Token header (case insensitive)', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -28,7 +28,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should extract token from form-urlencoded body', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -43,7 +43,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should extract token from JSON body', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -60,7 +60,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should extract token from JSON body with camelCase', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -77,7 +77,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should handle base64 encoded body', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const body = Buffer.from('cf-turnstile-response=encoded-token-123').toString('base64');
     const event = {
@@ -93,7 +93,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should return null when token is not found', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -108,7 +108,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should return null for unsupported content type', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -123,7 +123,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should handle empty body', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {
@@ -138,7 +138,7 @@ describe('get-turnstile-token', () => {
   });
 
   it('should handle missing headers', async () => {
-    const { getTurnstileToken } = require('./get-turnstile-token');
+    const { getTurnstileToken } = await import('./get-turnstile-token.js');
     
     const event = {
       headers: {},

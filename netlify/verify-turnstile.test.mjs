@@ -1,4 +1,4 @@
-const { describe, it, expect, vi, beforeEach, afterEach } = require('vitest');
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock fetch globally
 global.fetch = vi.fn();
@@ -9,7 +9,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should verify a valid token', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -32,7 +32,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should return error when secret key is missing', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     const result = await verifyTurnstile('token', '');
     
@@ -41,7 +41,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should return error when token is missing', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     const result = await verifyTurnstile('', 'secret-key');
     
@@ -50,7 +50,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should return error when verification fails', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -67,7 +67,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should include remote IP when provided', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -83,7 +83,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should handle network errors', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -94,7 +94,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should handle non-ok responses', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: false,
@@ -109,7 +109,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should handle malformed JSON responses', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -125,7 +125,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should include correct form data in request', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -144,7 +144,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should not include remoteip when not provided', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -163,7 +163,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should handle empty error codes array', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -180,7 +180,7 @@ describe('verify-turnstile', () => {
   });
 
   it('should handle multiple error codes', async () => {
-    const { verifyTurnstile } = require('./verify-turnstile');
+    const { verifyTurnstile } = await import('./verify-turnstile.js');
     
     global.fetch.mockResolvedValueOnce({
       ok: true,
