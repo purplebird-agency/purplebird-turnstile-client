@@ -1,0 +1,45 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check if version exists
+        id: check-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "Checking if version $VERSION exists on npm..."
+          
+          if npm view "@purplebird/turnstile-client@$VERSION" version > /dev/null 2>&1; then
+            echo "Version $VERSION already exists on npm. Skipping publish."
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist. Will publish."
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to npm
+        if: steps.check-version.outputs.exists == 'false'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip publish message
+        if: steps.check-version.outputs.exists == 'true'
+        run: |
+          echo "::notice::Version already exists on npm. Skipping publish."
+
