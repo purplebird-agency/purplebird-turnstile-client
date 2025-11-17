@@ -38,7 +38,14 @@
     "engines": {
         "node": ">=14.0.0"
     },
-    "publishConfig": {
-        "access": "public"
-    }
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./TurnstileWidget.astro": "./src/TurnstileWidget.astro",
+    "./src/TurnstileWidget.astro": "./src/TurnstileWidget.astro",
+    "./netlify/verify-turnstile": "./netlify/verify-turnstile.js",
+    "./netlify/get-turnstile-token": "./netlify/get-turnstile-token.js"
+  }
 }

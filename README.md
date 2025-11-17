@@ -23,7 +23,7 @@ npm install @purplebird/turnstile-client
 
 ```astro
 ---
-import TurnstileWidget from '@purplebird/turnstile-client/TurnstileWidget.astro';
+import TurnstileWidget from '@purplebird/turnstile-client/src/TurnstileWidget.astro';
 
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
@@ -161,7 +161,7 @@ npm install @purplebird/turnstile-client
 **After:**
 ```astro
 ---
-import TurnstileWidget from '@purplebird/turnstile-client/TurnstileWidget.astro';
+import TurnstileWidget from '@purplebird/turnstile-client/src/TurnstileWidget.astro';
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
