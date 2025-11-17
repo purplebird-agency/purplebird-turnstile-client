@@ -1,6 +1,6 @@
 {
     "name": "@purplebird/turnstile-client",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Standardized Cloudflare Turnstile integration package for Astro projects with automatic token refresh",
     "main": "src/index.ts",
     "module": "src/index.ts",
@@ -10,15 +10,15 @@
         "netlify",
         "README.md"
     ],
-  "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui",
-    "version:patch": "npm version patch && git push --follow-tags",
-    "version:minor": "npm version minor && git push --follow-tags",
-    "version:major": "npm version major && git push --follow-tags"
-  },
+    "scripts": {
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "test:ui": "vitest --ui",
+        "version:patch": "npm version patch && git push --follow-tags",
+        "version:minor": "npm version minor && git push --follow-tags",
+        "version:major": "npm version major && git push --follow-tags"
+    },
     "keywords": [
         "turnstile",
         "cloudflare",
@@ -35,15 +35,15 @@
         "type": "git",
         "url": "git+https://github.com/purplebird-agency/purplebird-turnstile-client.git"
     },
-  "peerDependencies": {
-    "busboy": "^1.6.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/coverage-v8": "^1.0.0",
-    "jsdom": "^23.0.0"
-  },
+    "peerDependencies": {
+        "busboy": "^1.6.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "vitest": "^1.0.0",
+        "@vitest/coverage-v8": "^1.0.0",
+        "jsdom": "^23.0.0"
+    },
     "engines": {
         "node": ">=14.0.0"
     },
