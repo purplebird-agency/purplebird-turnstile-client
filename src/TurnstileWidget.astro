@@ -18,11 +18,14 @@ const {
   refreshInterval = 120000,
 } = Astro.props;
 
-// Use provided siteKey, or fallback to test key if empty/undefined
-// The consumer decides whether to use test keys (e.g., via env var fallback)
-const siteKey = providedSiteKey && providedSiteKey.trim() !== '' 
-  ? providedSiteKey 
-  : '1x00000000000000000000AA';
+// Automatically use test key if no siteKey provided
+// This allows forms to work locally without needing env vars
+// Handle undefined, null, empty string, or string "undefined"
+const normalizedKey = typeof providedSiteKey === 'string' ? providedSiteKey.trim() : '';
+const hasSiteKey = normalizedKey !== '' && normalizedKey !== 'undefined';
+
+// Use provided key if valid, otherwise use test key (works on any domain including localhost)
+const siteKey = hasSiteKey ? normalizedKey : '1x00000000000000000000AA';
 
 const widgetId = containerId || `turnstile-widget-${Math.random().toString(36).substring(2, 9)}`;
 ---

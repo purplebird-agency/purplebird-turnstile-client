@@ -17,6 +17,19 @@ Standardized Cloudflare Turnstile integration package for Astro projects. This p
 npm install @purplebird/turnstile-client
 ```
 
+## Development
+
+```bash
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+```
+
 ## Usage
 
 ### Frontend (Astro Component)
